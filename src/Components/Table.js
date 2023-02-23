@@ -10,10 +10,10 @@ const Table = ({savedInput,setSelectedPlayer}) => {
     }, [savedInput])
 
     return ( 
-            <div className="overflow-x-auto w-2/3">
+            <div className="overflow-x-auto w-2/3 overflow-x-auto">
                 <div className="p-1.5 w-full inline-block align-middle">
-                    <div className="overflow-hidden border rounded-lg">
-                        <table className="min-w-full divide-y divide-gray-200">
+                    <div className="border rounded-lg">
+                        <table className="w-full divide-y divide-gray-200 overflow-x-auto overflow-x-scroll">
                             <thead className="bg-gray-50">
                                 <tr>
                                     <th

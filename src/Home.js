@@ -4,7 +4,7 @@ import { useState } from "react";
 
 const Home = ({savedInput}) => {
     const [selectedPlayer , setSelectedPlayer] = useState({})
-
+    console.log(savedInput)
     return ( 
         <div className="flex pt-10 pl-10">
             <Table savedInput={savedInput} setSelectedPlayer={setSelectedPlayer}/>
