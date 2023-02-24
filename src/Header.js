@@ -3,9 +3,8 @@ import axios from "axios";
 import { useState , useEffect} from "react";
 
 const Header = ({savedInput,setSavedInput}) => {
-    // const [savedInput, setSavedInput] = useState({operator:"",gameType:"",slateName:""});
-
-    const [operator, setOperator] = useState(["Select Operator"]);
+    
+    const [operator, setOperator] = useState([]);
     const [gameType, setGameType] = useState([]);
     const [slateName, setSlateName] = useState([]);
 

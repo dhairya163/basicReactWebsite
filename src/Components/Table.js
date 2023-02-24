@@ -1,16 +1,35 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import Pagination from "./Pagination";
 
 const Table = ({savedInput,setSelectedPlayer}) => {
     const [players , setPlayers ] = useState([]);
+    const [currentPage , setCurrentPage] = useState(1);
+    const [recordsPerPage] = useState(10);
+    const indexOfLastRecord = currentPage * recordsPerPage;
+    const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+    const nPages = Math.ceil(players.length / recordsPerPage);
 
     useEffect( () =>{
         axios.get(`https://app.aurictouch.com/players?operator=${savedInput.operator}&operatorGameType=${savedInput.gameType}&operatorName=${savedInput.slateName}`)
-        .then(val => setPlayers(val.data.data))
-    }, [savedInput])
+        .then(val => {setPlayers(val.data.data); setCurrentPage(1)})
+    }, [savedInput.slateName])
+
+    const nextPage = () =>{
+        if(currentPage<nPages){
+            setCurrentPage(currentPage+1)
+        }
+    }
+
+    const prevPage = () =>{
+        if(currentPage>1){
+            setCurrentPage(currentPage-1)
+        }
+    }
 
     return ( 
             <div className="overflow-x-auto w-2/3 overflow-x-auto">
+               {players.length > 0 && <Pagination nextPage={nextPage} prevPage={prevPage} firstIndexOfCurrentPage={indexOfFirstRecord+1} lastIndexOfCurrentPage={indexOfLastRecord} totalEntries={players.length}/>}
                 <div className="p-1.5 w-full inline-block align-middle">
                     <div className="border rounded-lg">
                         <table className="w-full divide-y divide-gray-200 overflow-x-auto overflow-x-scroll">
@@ -50,8 +69,8 @@ const Table = ({savedInput,setSelectedPlayer}) => {
                             </thead>
                             <tbody className="divide-y divide-gray-200">
                                 {
-                                    players.map((player) => (
-                                    <tr key={player.playerId} onClick={() => setSelectedPlayer(player)}>
+                                    players.slice(indexOfFirstRecord,indexOfLastRecord).map((player) => (
+                                    <tr key={player.playerId} onClick={() => setSelectedPlayer(player)} className="cursor-pointer">
                                         <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap w-1/5">
                                             {player.operatorPlayerName}
                                         </td>
